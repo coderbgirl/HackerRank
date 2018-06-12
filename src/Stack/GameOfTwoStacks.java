@@ -5,29 +5,37 @@ import java.util.Scanner;
 public class GameOfTwoStacks {
 
 	static int maxValue(long x, int[] a, int[] b) {
-		int top1 = 0, top2 = 0;
-		int result = 0;
-		long sum = 0;
-		int max = 0;
+		 int ai = 0;
+		    int bi = 0;
+		    int count = 0;
+		    int sum = 0;
+		    // move bi to the position where if only take elements from B, last element it can take
+		    while (bi < b.length && sum + b[bi] <= x) {
+		        sum += b[bi]; 
+		        bi++;
+		    }
+		    bi--; // loop exits only when bi reaches end or sum > x; in both case bi should decrease
+		    count = bi + 1;
+		    while (ai < a.length && bi < b.length) {
+		        sum += a[ai];
+		        if (sum > x) {
+		            while (bi >= 0) {
+		                sum -= b[bi];
+		                bi--;
+		                if (sum <= x) break;
+		            }
+		            // if even no elements taken from B, but still sum greater than x, then a[ai] should not be chosen
+		            // and loop terminates
+		            if (sum > x && bi < 0) {
+		                ai--;
+		                break;
+		            }
+		        }
+		        count = Math.max(ai + bi + 2, count);
+		        ai++;
+		    }
 
-		while (true) {
-			if (a[top1] <= b[top2]) {
-				max = b[top2];
-				top2++;
-			} else if(a[top1]> b[top2]) {
-				max = a[top1];
-				top1++;
-			}
-			
-			if ((sum + max) < x) {
-				sum = sum + max;
-				if (result < max)
-					result = max;
-			} else {
-				break;
-			}
-		}
-		return max;
+		    return count;
 	}
 
 	public static void main(String[] args) {
