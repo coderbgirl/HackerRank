@@ -25,15 +25,26 @@ class Linkedlist9 {
 		tail = node;
 
 	}
-	public boolean Cycle(Node9 head){
-		Node9 n= head;
-		while(n!=null){
-			n=n.next;
-			if(n.next==null){
+
+	public boolean Cycle(Node9 head) {
+		Node9 n = head;
+		Node9 m = head;
+		while (n != null) {
+			if (n.next == null) {
 				return false;
 			}
+			n = n.next;
+			if (n == m) {
+				return true;
+			}
+			if (n.next == null) {
+				return false;
+			}
+			n = n.next;
+			m = m.next;
 		}
-		return true;
+		
+		return false;
 	}
 }
 
@@ -44,6 +55,8 @@ public class CycleDetection {
 
 		int tests = scan.nextInt();
 		for (int i = 0; i < tests; i++) {
+			int index = scan.nextInt();
+
 			Linkedlist9 list1 = new Linkedlist9();
 			int NoOfElements1 = scan.nextInt();
 
@@ -51,9 +64,21 @@ public class CycleDetection {
 				int element1 = scan.nextInt();
 				list1.insert(element1);
 			}
+			Node9 p = list1.head;
+			Node9 temp = null;
+			for (int k = 0; k < NoOfElements1; k++) {
+				if (k == index) {
+					temp = p;
+				}
+				if (k == NoOfElements1 - 1) {
+					p.next = temp;
+				}
+				p = p.next;
 
-			
+			}
+
 			boolean result = list1.Cycle(list1.head);
+			System.out.println(result);
 		}
 
 	}
