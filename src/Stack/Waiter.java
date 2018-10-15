@@ -5,30 +5,29 @@ import java.util.Scanner;
 
 public class Waiter {
 	static int[] waiter(int[] number, int q) {
-		int[] prime = new int[q];
-		int index = 0;
-		for (int i = 2; i < 10000; i++) {
-			int counter = 0;
-			if (i > 9) {
-				while (true) {
-					String temp = Integer.toString(i);
-					int a = Integer.parseInt(temp.substring(temp.length() - 1));
-					if (a == 0 || a == 2 || a == 4 || a == 5 || a == 6 || a == 8) {
-						i++;
-					} else
-						break;
-				}
-			}
-			for (int j = i; j >= 1; j--) {
+		int[] prime = new int[q + 3];
+		prime[0] = 2;
+		prime[1] = 3;
+		prime[2] = 5;
+		int index = 3;
+		for (int i = 7; i < 10000; i++) {
+			if (i % 2 == 0 || i % 5 == 0)
+				continue;
+			
+			int isPrime = 1;
+			int squareRoot= (int)Math.sqrt(i);
+			
+			for (int j = i - 1; j >squareRoot ; j--) {
 				if (i % j == 0) {
-					counter++;
+					isPrime = 0;
+					break;
 				}
 			}
-			if (counter == 2) {
+			if (isPrime==1) {
 				prime[index] = i;
 				index++;
 			}
-			if (index == q) {
+			if (index >= q) {
 				break;
 			}
 		}
@@ -53,7 +52,7 @@ public class Waiter {
 				result[k] = B.get(l);
 				k++;
 			}
-			if (i == q - 1 && result[number.length-1]==0){
+			if (i == q - 1 && result[number.length - 1] == 0) {
 				for (int l = A.size() - 1; l >= 0; l--) {
 					result[k] = A.get(l);
 					k++;
@@ -61,7 +60,6 @@ public class Waiter {
 			}
 			Ao.clear();
 			Ao.addAll(A);
-		
 
 			B.clear();
 			A.clear();
